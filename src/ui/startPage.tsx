@@ -3,11 +3,13 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getUserTC, setUserTC} from '../bll/usersReducer'
 import { AppStateType } from '../bll/store';
+import { Redirect } from 'react-router-dom';
 
 function StartPage() {
 
     let [intervalId, changeIntervalId] = useState()
     let isFetching = useSelector((store: AppStateType) => store.users.isFetching)
+    let chatId = useSelector((store: AppStateType) => store.users.chatId)
     const dispatch = useDispatch()
 
     const startSearching = () => {
@@ -23,6 +25,11 @@ function StartPage() {
         }
         return () => clearInterval(intervalId)
     }, [isFetching])
+
+    if (chatId) {
+        return <Redirect to={'/chat_page'}/>
+    }
+
 
     return (
         <div className="App">
