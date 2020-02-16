@@ -1,19 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 // import './App.css';
-import {useDispatch} from "react-redux";
-import {getUserTC} from '../bll/usersReducer'
+import {useDispatch, useSelector} from "react-redux";
+import {getUserTC, setUserTC} from '../bll/usersReducer'
+import { AppStateType } from '../bll/store';
 
 function StartPage() {
 
+    let [intervalId, changeIntervalId] = useState()
+    let isFetching = useSelector((store: AppStateType) => store.users.isFetching)
     const dispatch = useDispatch()
 
     const startSearching = () => {
-        dispatch(getUserTC())
+        dispatch(setUserTC())
     }
+
+    useEffect(() => {
+        clearInterval(intervalId)
+        if (isFetching) {
+            changeIntervalId(setInterval(() => {
+                dispatch(getUserTC())
+            }, 1000))
+        }
+        return () => clearInterval(intervalId)
+    }, [isFetching])
 
     return (
         <div className="App">
-            <button onClick={startSearching}>Start a random conversation</button>
+            <button onClick={startSearching} disabled={isFetching}>Start a random conversation</button>
         </div>
     );
 }

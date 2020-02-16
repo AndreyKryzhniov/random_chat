@@ -1,33 +1,50 @@
 import {Dispatch} from "redux";
 import {api} from '../api/api'
 
-const SET_USERS = 'SET_USERS'
+const SET_USER = 'SET_USER'
+const SET_USER_IN_CHAT = 'SET_USER_IN_CHAT'
 
 interface IUserState {
-    id: number,
-    isFetching: boolean
+    userId: number,
+    isFetching: boolean,
+    chatId: number
 }
 
-interface IAction {
-    type: typeof SET_USERS
-    id: number
+interface IActionSetUser {
+    type: typeof SET_USER
+    userId: number
     status: string
 }
 
-const initialState: IUserState = {
-    id: 0,
-    isFetching: false
+interface IActionUserSetInChat {
+    type: typeof SET_USER_IN_CHAT
+    status: string
+    chatId: number
 }
 
 
-const usersReducer = (state: IUserState = initialState, action: IAction): IUserState => {
+
+const initialState: IUserState = {
+    userId: 0,
+    isFetching: false,
+    chatId: 0
+}
+
+
+const usersReducer = (state: IUserState = initialState, action: IActionSetUser | IActionUserSetInChat): IUserState => {
     switch (action.type) {
-        case SET_USERS: {
-            debugger
+        case SET_USER: {
             return {
                 ...state,
-                id: action.id,
+                userId: action.userId,
                 isFetching: action.status === 'wait'
+            }
+        }
+        case SET_USER_IN_CHAT: {
+            return {
+                ...state,
+                chatId: action.chatId,
+                isFetching: !(action.status === 'found')
             }
         }
     }
@@ -35,12 +52,21 @@ const usersReducer = (state: IUserState = initialState, action: IAction): IUserS
 }
 
 
-const setUser = (id: number, status: string): IAction => ({type: SET_USERS, id, status})
+const postUser = (userId: number, status: string): IActionSetUser => ({type: SET_USER, userId, status})
+const setUserInChat = (status: string, chatId: number): IActionUserSetInChat => ({type: SET_USER_IN_CHAT, status, chatId})
+
+export const setUserTC = () => {
+    return (dispatch: Dispatch) => {
+        api.setUser().then(response => {
+            dispatch(postUser(response.data.userId, response.data.status))
+        })
+    }
+}
 
 export const getUserTC = () => {
     return (dispatch: Dispatch) => {
         api.getUser().then(response => {
-            dispatch(setUser(response.data.userId, response.data.status))
+            dispatch(setUserInChat(response.data.status, response.data.chatId))
         })
     }
 }

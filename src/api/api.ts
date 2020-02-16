@@ -5,7 +5,10 @@ const instance = axios.create({
 })
 
 export const api ={
-    getUser () {
+    setUser () {
         return instance.post('user')
+    },
+    getUser () {
+        return instance.get('user')
     }
 }
