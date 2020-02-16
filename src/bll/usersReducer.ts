@@ -71,4 +71,21 @@ export const getUserTC = () => {
     }
 }
 
+export const getMessagesTC = () => {
+    return (dispatch: Dispatch, getState: () => AppStateType) => {
+        const users = getState().users;
+        api.getMessages(users.userId, users.chatId, '').then(response => {
+            // dispatch(setUserInChat(response.data.status, response.data.chatId))
+        })
+    }
+}
+export const sendMessageTC = (message: string) => {
+    return (dispatch: Dispatch, getState: () => AppStateType) => {
+        const users = getState().users;
+        api.sendMessage(users.userId, users.chatId, message).then(response => {
+            // dispatch(setUserInChat(response.data.status, response.data.chatId))
+        })
+    }
+}
+
 export default usersReducer
