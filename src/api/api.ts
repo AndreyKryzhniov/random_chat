@@ -8,7 +8,7 @@ export const api ={
     setUser () {
         return instance.post('user')
     },
-    getUser () {
-        return instance.get('user')
+    getUser (userId: number) {
+        return instance.get(`user?userId=${userId}`)
     }
 }

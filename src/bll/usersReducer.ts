@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {api} from '../api/api'
+import {AppStateType} from "./store";
 
 const SET_USER = 'SET_USER'
 const SET_USER_IN_CHAT = 'SET_USER_IN_CHAT'
@@ -21,7 +22,6 @@ interface IActionUserSetInChat {
     status: string
     chatId: number
 }
-
 
 
 const initialState: IUserState = {
@@ -64,8 +64,8 @@ export const setUserTC = () => {
 }
 
 export const getUserTC = () => {
-    return (dispatch: Dispatch) => {
-        api.getUser().then(response => {
+    return (dispatch: Dispatch, getState: () => AppStateType) => {
+        api.getUser(getState().users.userId).then(response => {
             dispatch(setUserInChat(response.data.status, response.data.chatId))
         })
     }
