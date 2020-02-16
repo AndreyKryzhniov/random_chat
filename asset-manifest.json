@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/random_chat/static/css/main.d1b05096.chunk.css",
+    "main.css": "/random_chat/static/css/main.499e78d4.chunk.css",
     "main.js": "/random_chat/static/js/main.7004f09c.chunk.js",
     "main.js.map": "/random_chat/static/js/main.7004f09c.chunk.js.map",
     "runtime-main.js": "/random_chat/static/js/runtime-main.47209dfc.js",
@@ -8,15 +8,15 @@
     "static/js/2.a03b8bd6.chunk.js": "/random_chat/static/js/2.a03b8bd6.chunk.js",
     "static/js/2.a03b8bd6.chunk.js.map": "/random_chat/static/js/2.a03b8bd6.chunk.js.map",
     "index.html": "/random_chat/index.html",
-    "precache-manifest.ba4a5b324c97740d3473a825d106c748.js": "/random_chat/precache-manifest.ba4a5b324c97740d3473a825d106c748.js",
+    "precache-manifest.e41af4d3d6ec1d7d40e39a0f3e786c18.js": "/random_chat/precache-manifest.e41af4d3d6ec1d7d40e39a0f3e786c18.js",
     "service-worker.js": "/random_chat/service-worker.js",
-    "static/css/main.d1b05096.chunk.css.map": "/random_chat/static/css/main.d1b05096.chunk.css.map",
+    "static/css/main.499e78d4.chunk.css.map": "/random_chat/static/css/main.499e78d4.chunk.css.map",
     "static/js/2.a03b8bd6.chunk.js.LICENSE.txt": "/random_chat/static/js/2.a03b8bd6.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.47209dfc.js",
     "static/js/2.a03b8bd6.chunk.js",
-    "static/css/main.d1b05096.chunk.css",
+    "static/css/main.499e78d4.chunk.css",
     "static/js/main.7004f09c.chunk.js"
   ]
 }
