@@ -4,7 +4,7 @@ const instance = axios.create({
     baseURL: "https://vast-sands-32724.herokuapp.com/",
 })
 
-type IMessage = {
+export type IMessage = {
     message: string;
     userId: number;
     date: string;

@@ -1,14 +1,16 @@
 import {Dispatch} from "redux";
-import {api} from '../api/api'
+import {api, IMessage} from '../api/api'
 import {AppStateType} from "./store";
 
 const SET_USER = 'SET_USER'
 const SET_USER_IN_CHAT = 'SET_USER_IN_CHAT'
+const SET_MESSAGES = 'SET_MESSAGES'
 
 interface IUserState {
-    userId: number,
-    isFetching: boolean,
+    userId: number
+    isFetching: boolean
     chatId: number
+    messages: IMessage[]
 }
 
 interface IActionSetUser {
@@ -23,30 +25,48 @@ interface IActionUserSetInChat {
     chatId: number
 }
 
+interface IActionUserSetMessages {
+    type: typeof SET_MESSAGES
+    status: string
+    messages: IMessage[]
+}
+
 
 const initialState: IUserState = {
     userId: 0,
     isFetching: false,
-    chatId: 0
+    chatId: 0,
+    messages: [],
 }
 
+type IActions = IActionSetUser | IActionUserSetInChat | IActionUserSetMessages
 
-const usersReducer = (state: IUserState = initialState, action: IActionSetUser | IActionUserSetInChat): IUserState => {
+
+const usersReducer = (state: IUserState = initialState, action: IActions): IUserState => {
     switch (action.type) {
         case SET_USER: {
             return {
                 ...state,
                 userId: action.userId,
-                isFetching: action.status === 'wait'
+                isFetching: action.status === 'wait',
+                messages: [],
             }
         }
         case SET_USER_IN_CHAT: {
             return {
                 ...state,
                 chatId: action.chatId,
-                isFetching: !(action.status === 'found')
+                isFetching: !(action.status === 'found'),
             }
         }
+        case SET_MESSAGES: {
+            return {
+                ...state,
+                messages: [...state.messages, ...action.messages],
+            }
+        }
+
+
     }
     return state
 }
@@ -54,6 +74,7 @@ const usersReducer = (state: IUserState = initialState, action: IActionSetUser |
 
 const postUser = (userId: number, status: string): IActionSetUser => ({type: SET_USER, userId, status})
 const setUserInChat = (status: string, chatId: number): IActionUserSetInChat => ({type: SET_USER_IN_CHAT, status, chatId})
+const setMessages = (status: string, messages: IMessage[]): IActionUserSetMessages => ({type: SET_MESSAGES, status, messages})
 
 export const setUserTC = () => {
     return (dispatch: Dispatch) => {
@@ -74,8 +95,9 @@ export const getUserTC = () => {
 export const getMessagesTC = () => {
     return (dispatch: Dispatch, getState: () => AppStateType) => {
         const users = getState().users;
-        api.getMessages(users.userId, users.chatId, '').then(response => {
-            // dispatch(setUserInChat(response.data.status, response.data.chatId))
+        const date = '' + (users.messages.length && users.messages[users.messages.length - 1].date);
+        api.getMessages(users.userId, users.chatId, date).then(response => {
+            dispatch(setMessages(response.data.status, response.data.messages))
         })
     }
 }
