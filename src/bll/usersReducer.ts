@@ -78,6 +78,7 @@ const setMessages = (status: string, messages: IMessage[]): IActionUserSetMessag
 
 export const setUserTC = () => {
     return (dispatch: Dispatch) => {
+        dispatch(postUser(0, 'wait'))
         api.setUser().then(response => {
             dispatch(postUser(response.data.userId, response.data.status))
         })

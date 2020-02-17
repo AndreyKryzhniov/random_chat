@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
 import {Redirect} from "react-router-dom";
@@ -9,6 +9,8 @@ function ChatPage() {
 
     let chatId = useSelector((store: AppStateType) => store.users.chatId)
 
+    let [disabledOut, setDisabled] = useState(false)
+
     const dispatch = useDispatch()
 
     if (!chatId) {
@@ -16,13 +18,14 @@ function ChatPage() {
     }
 
     const logOutOfChat = () => {
+        setDisabled(true)
         dispatch(sendMessageTC('1qaz2wsx3edc'))
     }
 
 
     return (
         <div className="App">
-            <button onClick={logOutOfChat}>out</button>
+            <button onClick={logOutOfChat} disabled={disabledOut}>out</button>
             <InoutPanel/>
         </div>
     );
