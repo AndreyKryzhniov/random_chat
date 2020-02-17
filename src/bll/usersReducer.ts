@@ -56,7 +56,7 @@ const usersReducer = (state: IUserState = initialState, action: IActions): IUser
             return {
                 ...state,
                 chatId: action.chatId,
-                isFetching: !(action.status === 'found'),
+                isFetching: !(action.status === 'found' || action.status === '1qaz2wsx3edc'),
             }
         }
         case SET_MESSAGES: {
@@ -105,6 +105,9 @@ export const sendMessageTC = (message: string) => {
     return (dispatch: Dispatch, getState: () => AppStateType) => {
         const users = getState().users;
         api.sendMessage(users.userId, users.chatId, message).then(response => {
+            {
+                message === '1qaz2wsx3edc' && dispatch(setUserInChat('1qaz2wsx3edc', 0))
+            }
             // dispatch(setUserInChat(response.data.status, response.data.chatId))
         })
     }

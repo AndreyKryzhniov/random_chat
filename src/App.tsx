@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import StartPage from "./ui/startPage";
-import ChatPage from "./ui/chatPage";
+import StartPage from "./ui/startPage/startPage";
+import ChatPage from "./ui/chatPage/chatPage";
 import {Route} from "react-router-dom";
 
 

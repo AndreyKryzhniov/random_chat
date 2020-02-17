@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 // import './App.css';
 import {useDispatch, useSelector} from "react-redux";
-import {getUserTC, setUserTC} from '../bll/usersReducer'
-import { AppStateType } from '../bll/store';
+import {getUserTC, setUserTC} from '../../bll/usersReducer'
+import { AppStateType } from '../../bll/store';
 import { Redirect } from 'react-router-dom';
 
 function StartPage() {
