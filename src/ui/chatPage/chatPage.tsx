@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../bll/store";
 import {Redirect} from "react-router-dom";
 import InoutPanel from "./inputPanelComponent";
-import {sendMessageTC} from "../../bll/usersReducer";
+import {sendMessageTC, getMessagesTC} from "../../bll/usersReducer";
 
 function ChatPage() {
-
-    let chatId = useSelector((store: AppStateType) => store.users.chatId)
-
+    let {chatId, messages} = useSelector((store: AppStateType) => store.users)
     let [disabledOut, setDisabled] = useState(false)
-
     const dispatch = useDispatch()
+    const [int, setInt] = useState()
+    useEffect(() => {
+        clearInterval(int)
+        if (chatId)
+        setInt(setInterval(() => {
+            dispatch(getMessagesTC())
+        }, 1000))
+        return () => clearInterval(int)
+    }, [chatId])
 
     if (!chatId) {
         return <Redirect to={'/start_page'}/>
@@ -26,6 +32,7 @@ function ChatPage() {
     return (
         <div className="App">
             <button onClick={logOutOfChat} disabled={disabledOut}>out</button>
+            {messages.map((m, i) => <div key={i}>{m.message}</div>)}
             <InoutPanel/>
         </div>
     );

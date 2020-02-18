@@ -73,8 +73,16 @@ const usersReducer = (state: IUserState = initialState, action: IActions): IUser
 
 
 const postUser = (userId: number, status: string): IActionSetUser => ({type: SET_USER, userId, status})
-const setUserInChat = (status: string, chatId: number): IActionUserSetInChat => ({type: SET_USER_IN_CHAT, status, chatId})
-const setMessages = (status: string, messages: IMessage[]): IActionUserSetMessages => ({type: SET_MESSAGES, status, messages})
+const setUserInChat = (status: string, chatId: number): IActionUserSetInChat => ({
+    type: SET_USER_IN_CHAT,
+    status,
+    chatId
+})
+const setMessages = (status: string, messages: IMessage[]): IActionUserSetMessages => ({
+    type: SET_MESSAGES,
+    status,
+    messages
+})
 
 export const setUserTC = () => {
     return (dispatch: Dispatch) => {
@@ -97,9 +105,10 @@ export const getMessagesTC = () => {
     return (dispatch: Dispatch, getState: () => AppStateType) => {
         const users = getState().users;
         const date = '' + (users.messages.length && users.messages[users.messages.length - 1].date);
-        api.getMessages(users.userId, users.chatId, date).then(response => {
-            dispatch(setMessages(response.data.status, response.data.messages))
-        })
+        api.getMessages(users.userId, users.chatId, date !== '0' ? date : new Date(0).toString())
+            .then(response => {
+                dispatch(setMessages(response.data.status, response.data.messages))
+            })
     }
 }
 export const sendMessageTC = (message: string) => {
