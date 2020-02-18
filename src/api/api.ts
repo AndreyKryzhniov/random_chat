@@ -7,7 +7,7 @@ const instance = axios.create({
 export type IMessage = {
     message: string;
     userId: number;
-    date: string;
+    date: number;
 }
 
 export const api ={
@@ -17,7 +17,7 @@ export const api ={
     getUser (userId: number) {
         return instance.get<{chatId: number, status: string}>(`user?userId=${userId}`)
     },
-    getMessages (userId: number, chatId: number, lastMessageDate: string) {
+    getMessages (userId: number, chatId: number, lastMessageDate: number) {
         return instance.get<{messages: IMessage[], status: string}>(`message?userId=${userId}&chatId=${chatId}&date=${lastMessageDate}`)
     },
     sendMessage (userId: number, chatId: number, message: string) {
