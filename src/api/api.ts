@@ -21,7 +21,6 @@ export const api ={
         return instance.get<{messages: IMessage[], status: string}>(`message?userId=${userId}&chatId=${chatId}&date=${lastMessageDate}`)
     },
     sendMessage (userId: number, chatId: number, message: string) {
-        debugger
         return instance.post<{status: string}>('message', {userId, chatId, message})
     },
 }
