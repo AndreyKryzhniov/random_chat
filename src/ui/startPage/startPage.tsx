@@ -4,6 +4,7 @@ import {getUserTC, setUserTC} from '../../bll/usersReducer'
 import { AppStateType } from '../../bll/store';
 import { Redirect } from 'react-router-dom';
 import Loader from "../loader/Loader";
+import s from './StartPage.module.css'
 
 
 function StartPage() {
@@ -28,10 +29,10 @@ function StartPage() {
 
 
     return (
-        <div className="App">
-            <button onClick={startSearching} disabled={isFetching}>Start a random conversation</button>
-            {isFetching &&
-                <Loader/>
+        <div className={s.container}>
+
+            {isFetching ?
+                <Loader/> : <button onClick={startSearching} disabled={isFetching}>Start a random conversation</button>
             }
         </div>
     );

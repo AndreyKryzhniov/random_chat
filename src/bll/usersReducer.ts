@@ -82,8 +82,6 @@ const usersReducer = (state: IUserState = initialState, action: IActions): IUser
                 isLoading: action.isLoading
             }
         }
-
-
     }
     return state
 }
@@ -131,6 +129,7 @@ export const getMessagesTC = () => {
             })
     }
 }
+
 export const sendMessageTC = (message: string) => {
     return (dispatch: Dispatch, getState: () => AppStateType) => {
         const users = getState().users;

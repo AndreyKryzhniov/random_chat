@@ -1,0 +1,38 @@
+.container_messages {
+  height: 70%;
+  border: black solid 1px;
+}
+
+.firstUser {
+  margin: 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.firstUser span {
+  padding: 5px;
+  border: 1px solid aquamarine;
+  background-color: aquamarine;
+  border-radius: 3px;
+}
+
+.secondUser {
+  margin: 5px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.secondUser span {
+  padding: 5px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 3px;
+}
+
+.systemMessage {
+  font-weight: bold;
+  font-size: 25px;
+  background-color: crimson;
+  text-align: center;
+  padding: 5px;
+}

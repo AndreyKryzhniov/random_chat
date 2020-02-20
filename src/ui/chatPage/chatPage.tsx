@@ -4,9 +4,12 @@ import {AppStateType} from "../../bll/store";
 import {Redirect} from "react-router-dom";
 import InoutPanel from "./inputPanelComponent";
 import {sendMessageTC, getMessagesTC} from "../../bll/usersReducer";
+import Messages from './Messages/Messages';
+import c from './ChatPage.module.css'
+
 
 function ChatPage() {
-    let {chatId, messages, isLoading} = useSelector((store: AppStateType) => store.users)
+    let {chatId, messages, isLoading, userId} = useSelector((store: AppStateType) => store.users)
     let [disabledOut, setDisabled] = useState(false)
     const dispatch = useDispatch()
 
@@ -28,9 +31,11 @@ function ChatPage() {
 
 
     return (
-        <div className="App">
-            <button onClick={logOutOfChat} disabled={disabledOut}>out</button>
-            {messages.map((m, i) => <div key={i}>{m.message}</div>)}
+        <div className={c.container}>
+            <div>
+                <button onClick={logOutOfChat} disabled={disabledOut}>out</button>
+            </div>
+            <Messages messages={messages} userId={userId}/>
             <InoutPanel/>
         </div>
     );
