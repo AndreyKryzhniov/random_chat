@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-// import './App.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getUserTC, setUserTC} from '../../bll/usersReducer'
 import { AppStateType } from '../../bll/store';
 import { Redirect } from 'react-router-dom';
+import Loader from "../loader/Loader";
+
 
 function StartPage() {
 
@@ -34,6 +35,9 @@ function StartPage() {
     return (
         <div className="App">
             <button onClick={startSearching} disabled={isFetching}>Start a random conversation</button>
+            {isFetching &&
+                <Loader/>
+            }
         </div>
     );
 }

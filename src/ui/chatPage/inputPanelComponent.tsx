@@ -14,13 +14,19 @@ function InoutPanel() {
     }
 
     const sendMessage = () => {
-        newMessage('')
-        dispatch(sendMessageTC(message))
+        if (!(message.length === 0)) {newMessage('')
+        dispatch(sendMessageTC(message))}
+    }
+
+    const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter' && e.shiftKey) {
+            sendMessage()
+        }
     }
 
     return (
         <div className="App">
-            <input onChange={changeMessage} value={message}/>
+            <input onChange={changeMessage} value={message}  onKeyPress={onKeyPress}/>
             <button onClick={sendMessage}>SEND</button>
         </div>
     );
