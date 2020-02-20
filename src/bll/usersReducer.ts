@@ -72,7 +72,7 @@ const usersReducer = (state: IUserState = initialState, action: IActions): IUser
         case SET_MESSAGES: {
             return {
                 ...state,
-                messages: [...state.messages, ...action.messages],
+                messages: action.messages.length ? [...state.messages, ...action.messages] : state.messages,
                 isLoading: false
             }
         }

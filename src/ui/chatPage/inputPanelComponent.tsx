@@ -25,8 +25,13 @@ function InoutPanel() {
     }
 
     return (
-        <div className="App">
-            <textarea onChange={changeMessage} value={message}  onKeyPress={onKeyPress}/>
+        <div className="App" style={{display: "flex", alignItems: 'center', justifyContent: "center"}}>
+            <textarea
+                onChange={changeMessage}
+                value={message}
+                onKeyPress={onKeyPress}
+                style={{margin: 5, width: 250, height: 50, resize: "none", outline: "none"}}
+            />
             <button onClick={sendMessage}>SEND</button>
         </div>
     );
