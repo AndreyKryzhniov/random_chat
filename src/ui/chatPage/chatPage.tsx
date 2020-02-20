@@ -6,18 +6,16 @@ import InoutPanel from "./inputPanelComponent";
 import {sendMessageTC, getMessagesTC} from "../../bll/usersReducer";
 
 function ChatPage() {
-    let {chatId, messages} = useSelector((store: AppStateType) => store.users)
+    let {chatId, messages, isLoading} = useSelector((store: AppStateType) => store.users)
     let [disabledOut, setDisabled] = useState(false)
     const dispatch = useDispatch()
-    const [int, setInt] = useState()
+
     useEffect(() => {
-        clearInterval(int)
-        if (chatId)
-        setInt(setInterval(() => {
+        if (chatId && !isLoading)
+        setTimeout(() => {
             dispatch(getMessagesTC())
-        }, 1000))
-        return () => clearInterval(int)
-    }, [chatId])
+        }, 1500)
+    }, [isLoading, chatId])
 
     if (!chatId) {
         return <Redirect to={'/start_page'}/>

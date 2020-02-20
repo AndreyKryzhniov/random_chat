@@ -5,6 +5,7 @@ import {AppStateType} from "./store";
 const SET_USER = 'SET_USER'
 const SET_USER_IN_CHAT = 'SET_USER_IN_CHAT'
 const SET_MESSAGES = 'SET_MESSAGES'
+const SET_IS_LOADING = 'SET_IS_LOADING'
 
 interface IUserState {
     userId: number
@@ -32,6 +33,11 @@ interface IActionUserSetMessages {
     messages: IMessage[]
 }
 
+interface IActionUserSetIsLoading {
+    type: typeof SET_IS_LOADING
+    isLoading: boolean
+}
+
 
 const initialState: IUserState = {
     userId: 0,
@@ -41,7 +47,7 @@ const initialState: IUserState = {
     isLoading: false,
 }
 
-type IActions = IActionSetUser | IActionUserSetInChat | IActionUserSetMessages
+type IActions = IActionSetUser | IActionUserSetInChat | IActionUserSetMessages | IActionUserSetIsLoading
 
 
 const usersReducer = (state: IUserState = initialState, action: IActions): IUserState => {
@@ -67,6 +73,13 @@ const usersReducer = (state: IUserState = initialState, action: IActions): IUser
             return {
                 ...state,
                 messages: [...state.messages, ...action.messages],
+                isLoading: false
+            }
+        }
+        case SET_IS_LOADING: {
+            return {
+                ...state,
+                isLoading: action.isLoading
             }
         }
 
@@ -77,6 +90,7 @@ const usersReducer = (state: IUserState = initialState, action: IActions): IUser
 
 
 const postUser = (userId: number, status: string): IActionSetUser => ({type: SET_USER, userId, status})
+const setIsLoading = (isLoading: boolean): IActionUserSetIsLoading => ({type: SET_IS_LOADING, isLoading})
 const setUserInChat = (status: string, chatId: number): IActionUserSetInChat => ({
     type: SET_USER_IN_CHAT,
     status,
@@ -110,6 +124,7 @@ export const getMessagesTC = () => {
     return (dispatch: Dispatch, getState: () => AppStateType) => {
         const users = getState().users;
         const date = !!users.messages.length ? users.messages[users.messages.length - 1].date : 0;
+        dispatch(setIsLoading(true))
         api.getMessages(users.userId, users.chatId, date)
             .then(response => {
                 dispatch(setMessages(response.data.status, response.data.messages))
