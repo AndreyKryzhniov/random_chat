@@ -11,6 +11,7 @@ interface IUserState {
     isFetching: boolean
     chatId: number
     messages: IMessage[]
+    isLoading: boolean
 }
 
 interface IActionSetUser {
@@ -37,6 +38,7 @@ const initialState: IUserState = {
     isFetching: false,
     chatId: 0,
     messages: [],
+    isLoading: false,
 }
 
 type IActions = IActionSetUser | IActionUserSetInChat | IActionUserSetMessages
@@ -49,6 +51,7 @@ const usersReducer = (state: IUserState = initialState, action: IActions): IUser
                 ...state,
                 userId: action.userId,
                 isFetching: action.status === 'wait',
+                isLoading: action.userId === 0,
                 messages: [],
             }
         }
@@ -56,6 +59,7 @@ const usersReducer = (state: IUserState = initialState, action: IActions): IUser
             return {
                 ...state,
                 chatId: action.chatId,
+                isLoading: action.chatId === 0,
                 isFetching: !(action.status === 'found' || action.status === '1qaz2wsx3edc'),
             }
         }
@@ -95,6 +99,7 @@ export const setUserTC = () => {
 
 export const getUserTC = () => {
     return (dispatch: Dispatch, getState: () => AppStateType) => {
+        dispatch(setUserInChat('wait', 0))
         api.getUser(getState().users.userId).then(response => {
             dispatch(setUserInChat(response.data.status, response.data.chatId))
         })

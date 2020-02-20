@@ -7,10 +7,7 @@ import Loader from "../loader/Loader";
 
 
 function StartPage() {
-
-    let [intervalId, changeIntervalId] = useState()
-    let isFetching = useSelector((store: AppStateType) => store.users.isFetching)
-    let chatId = useSelector((store: AppStateType) => store.users.chatId)
+    let {isFetching, chatId, isLoading} = useSelector((store: AppStateType) => store.users)
     const dispatch = useDispatch()
 
     const startSearching = () => {
@@ -18,14 +15,12 @@ function StartPage() {
     }
 
     useEffect(() => {
-        clearInterval(intervalId)
-        if (isFetching) {
-            changeIntervalId(setInterval(() => {
+        if (isFetching && !isLoading) {
+            setTimeout(() => {
                 dispatch(getUserTC())
-            }, 1000))
+            }, 1500)
         }
-        return () => clearInterval(intervalId)
-    }, [isFetching])
+    }, [isFetching, isLoading])
 
     if (chatId) {
         return <Redirect to={'/chat_page'}/>
