@@ -21,6 +21,7 @@ function ChatPage() {
     }, [isLoading, chatId])
 
     if (!chatId) {
+        disabledOut && setDisabled(false)
         return <Redirect to={'/start_page'}/>
     }
 
