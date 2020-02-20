@@ -9,7 +9,7 @@ function InoutPanel() {
 
     const dispatch = useDispatch()
 
-    const changeMessage = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
         newMessage(e.currentTarget.value)
     }
 
@@ -18,7 +18,7 @@ function InoutPanel() {
         dispatch(sendMessageTC(message))}
     }
 
-    const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && e.shiftKey) {
             sendMessage()
         }
@@ -26,7 +26,7 @@ function InoutPanel() {
 
     return (
         <div className="App">
-            <input onChange={changeMessage} value={message}  onKeyPress={onKeyPress}/>
+            <textarea onChange={changeMessage} value={message}  onKeyPress={onKeyPress}/>
             <button onClick={sendMessage}>SEND</button>
         </div>
     );

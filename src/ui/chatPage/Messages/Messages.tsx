@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {IMessage} from "../../../api/api";
 import mes from './Messages.module.css'
 
@@ -8,7 +8,10 @@ interface IProps {
 }
 
 function Messages(props: IProps) {
-
+    const ref = React.createRef<HTMLDivElement>()
+    useEffect(() => {
+        ref.current!.scroll(0, Number.MAX_SAFE_INTEGER)
+    }, [props.messages])
 
     let messages = props.messages.map((m, i) => {
         let classMessage = props.userId === m.userId
@@ -17,12 +20,23 @@ function Messages(props: IProps) {
                 ? mes.systemMessage
                 : mes.secondUser
 
-        return <div key={i} className={classMessage}><span>{m.userId === 0 ? 'Пользователь покинул чат' : m.message}</span></div>
+        return (
+            <div>
+                <div key={i} className={classMessage}>
+                <pre>
+                    {m.userId === 0 ? 'Пользователь покинул чат' : m.message}
+                    <br/>
+                    <div>{new Date(m.date).getHours()}:{new Date(m.date).getMinutes()}</div>
+                </pre>
+                </div>
+
+            </div>
+        )
     })
 
 
     return (
-        <div className={mes.container_messages}>
+        <div className={mes.container_messages} style={{height: 350, overflow: "auto"}} ref={ref}>
             {messages}
         </div>
     );
