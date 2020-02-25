@@ -100,10 +100,10 @@ const setMessages = (status: string, messages: IMessage[]): IActionUserSetMessag
     messages
 })
 
-export const setUserTC = () => {
+export const setUserTC = (sex?: string, findSex?: string[]) => {
     return (dispatch: Dispatch) => {
         dispatch(postUser(0, 'wait'))
-        api.setUser().then(response => {
+        api.setUser(sex, findSex).then(response => {
             dispatch(postUser(response.data.userId, response.data.status))
         })
     }

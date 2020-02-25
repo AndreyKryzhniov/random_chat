@@ -11,8 +11,8 @@ export type IMessage = {
 }
 
 export const api ={
-    setUser () {
-        return instance.post<{userId: number, status: string}>('user')
+    setUser (sex?: string, findSex?: string[]) {
+        return instance.post<{userId: number, status: string}>('user', {sex, findSex})
     },
     getUser (userId: number) {
         return instance.get<{chatId: number, status: string}>(`user?userId=${userId}`)
